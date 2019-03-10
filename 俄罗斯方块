@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef struct
+{
+    int x;
+    int y;
+}P;
+int main()
+{
+    int a[16][10],b[4][4],c,i,j,k=0,s=0,t,r,flag=0;
+    P p[4];
+    for(i=0;i<15;i++)
+    {
+        for(j=0;j<10;j++) cin>>a[i][j];
+    }
+    for(i=0;i<4;i++)
+    {
+        for(j=0;j<4;j++) cin>>b[i][j];
+    }
+    cin>>c;
+    for(i=0;i<3;i++)
+    {
+        for(j=0;j<4;j++)
+        {
+            if(b[i][j]==1&&b[i+1][j]!=1)
+            {
+                p[k].x=i;
+                p[k].y=j;
+                k++;
+            }
+        }
+    }
+    for(j=0;j<4;j++)
+    {
+        if(b[3][j]==1)
+        {
+            p[k].x=i;
+            p[k].y=j;
+            k++;
+        }
+    }
+    for(i=0;i<k;i++)
+    {
+        p[i].y=p[i].y+c-1;
+    }
+    for(i=0;i<15;i++)
+    {
+        for(j=0;j<k;j++)
+        {
+            t=p[j].x;
+            r=p[j].y;
+            if(a[t+1][r]==1||t==14)
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==1) break;
+        else
+        {
+            for(j=0;j<k;j++)
+            {
+                p[j].x++;
+            }
+            s++;
+        }
+    }
+    for(i=s;i<(s+4);i++)
+    {
+        for(j=c-1;j<(c+3);j++)
+            a[i][j]=a[i][j]+b[i-s][j+1-c];
+    }
+    for(i=0;i<15;i++)
+    {
+        for(j=0;j<10;j++) cout<<a[i][j]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
