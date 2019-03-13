@@ -1,0 +1,113 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef struct
+{
+    string id,s;
+    int cnt;
+    int father;
+}S;
+S a[100];
+bool bd(string str,int &start)
+{
+    int i;
+    for(i=(start-1);i>=0;i--)
+    {
+        if((a[i].cnt<a[start].cnt)&&(a[i].s==str||a[i].id==str))
+        {
+            start=i;
+            return true;
+        }
+    }
+    if(i<0) return false;
+}
+int main()
+{
+    int n,m,b[100],i,j,k,t,s,c;
+    string str;
+    cin>>n>>m;
+    getchar();
+    for(i=0;i<n;i++)
+    {
+        k=0;
+        t=0;
+        getline(cin,str);
+        while(str[k]=='.')
+        {
+            if(str[k]>='A'&&str[k]<='Z') str[k]=str[k]+'a'-'A';
+            k++;
+        }
+        t=k;
+        a[i].cnt=k;
+        while(str[k]!='#'&&k<str.length()) k++;
+        if(k==str.length())
+        {
+            a[i].id="";
+            a[i].s=str.substr(t);
+        }
+        else
+        {
+            a[i].s=str.substr(t,k-t-1);
+            a[i].id=str.substr(k,str.length()-k);
+        }
+        if(i==0) a[i].father=0;
+        else
+        {
+            t=i-1;
+            while(a[i].cnt<=a[t].cnt)
+            {
+                t--;
+            }
+            a[i].father=t;
+        }
+    }
+    for(i=0;i<m;i++)
+    {
+        t=0;
+        k=0;
+        s=0;
+        getline(cin,str);
+        char *p,*q;
+        vector <string> st;
+        p=(char *)str.data();
+        q=strtok(p," ");
+        while(q)
+        {
+            st.push_back(q);
+            q=strtok(NULL," ");
+        }
+        t=st.size()-1;
+        for(j=0;j<=t;j++)
+        {
+            if(st[j][0]!='#')
+            {
+                for(k=0;st[j][k]!='\0';k++)
+                {
+                    if(st[j][k]>='A'&&st[j][k]<='Z') st[j][k]=st[j][k]+'a'-'A';
+                }
+            }
+        }
+        for(j=0;j<n;j++)
+        {
+            if(st[t]==a[j].id||st[t]==a[j].s)
+            {
+                c=j;
+                for(k=t;k>0;k--)
+                {
+                    if(!bd(st[k-1],c)) break;
+                }
+                if(k==0)
+                {
+                    b[s]=j+1;
+                    s++;
+                }
+            }
+        }
+        if(s!=0)
+        {
+            cout<<s<<" ";
+            for(j=0;j<(s-1);j++) cout<<b[j]<<" ";
+            cout<<b[s-1]<<endl;
+        }
+        else cout<<s<<endl;
+    }
+}
