@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef struct Tree
+{
+    int data;
+    struct Tree *lchild,*rchild;
+}bitree,*tree;
+void re(int a[],int i,int j,int b[],int k,int h,tree &bt)
+{
+    int m,p;
+    bt=(bitree *)malloc(sizeof(bitree));
+    bt->data=a[j];
+    for(p=k;p<=h;p++)
+    {
+        if(b[p]==a[j])
+        {
+            m=p;
+            break;
+        }
+    }
+    if(m==k)
+        bt->lchild=NULL;
+    else
+        re(a,i,i+m-k-1,b,k,m-1,bt->lchild);
+    if(m==h)
+        bt->rchild=NULL;
+    else
+        re(a,j+m-h,j-1,b,m+1,h,bt->rchild);
+}
+int main()
+{
+    int n,a[50],b[50],i,c[50],k=0;
+    cin>>n;
+    for(i=0;i<n;i++) cin>>a[i];
+    for(i=0;i<n;i++) cin>>b[i];
+    tree bt;
+    queue <tree> p;
+    re(a,0,n-1,b,0,n-1,bt);
+    p.push(bt);
+    //cout<<bt->data;
+    while(p.size()!=0)
+    {
+        tree t;
+        t=p.front();
+        c[k]=t->data;
+        k++;
+        p.pop();
+        if(t->lchild!=NULL) p.push(t->lchild);
+        if(t->rchild!=NULL) p.push(t->rchild);
+    }
+    for(i=0;i<(k-1);i++) cout<<c[i]<<" ";
+    cout<<c[i];
+}
