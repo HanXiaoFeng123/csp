@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+   int n,l,k,i,x;
+   char a[6];
+   cin>>l>>n;
+   k=l-1;
+   for(i=0;i<l;i++) a[i]='z';
+   while(n!=1)
+   {
+       x=n%26;
+       if(x==0) a[k]='a';
+       else a[k]='z'-x+1;
+       k--;
+       if(x!=0) n=n/26+1;
+       else n=n/26;
+   }
+   for(i=0;i<l;i++) cout<<a[i];
+   return 0;
+}
+
