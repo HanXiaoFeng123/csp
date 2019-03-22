@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+int f(int x)
+{
+     set <int> q;
+     if(x<1000) q.insert(0);
+     while(x!=0)
+     {
+         q.insert(x%10);
+         x=x/10;
+     }
+     return q.size();
+}
+int main()
+{
+   int x,n,i;
+   cin>>x>>n;
+   for(i=x;;i++)
+   {
+       if(f(i)==n) break;
+   }
+   cout<<i-x<<" "<<setw(4)<<setfill('0')<<i;
+   return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
