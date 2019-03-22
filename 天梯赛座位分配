@@ -3,18 +3,17 @@ using namespace std;
 typedef struct
 {
     vector <int> p;
-    int s;
-    int flag;
+    int s;   //队伍数
+    int flag;//判断本校所有队伍是否分配完毕
 }S;
 int main()
 {
    S a[101];
-   int n,x,c=1,m=0,k=0,i,j,t;
+   int n,x,c=1,k=0,i,j,t;
    cin>>n;
    for(i=1;i<=n;i++)
    {
        cin>>x;
-       m=m+x;
        a[i].s=x;
        a[i].flag=1;
    }
@@ -23,27 +22,29 @@ int main()
    {
        for(i=1;i<=n;i++)
        {
-           if(a[i].p.size()>=a[i].s*10&&a[i].flag==1)
+           if(a[i].p.size()>=a[i].s*10&&a[i].flag==1) //判断队伍是否分配完毕
            {
                t--;
                a[i].flag=0;
                continue;
            }
-           if(a[i].p.size()<a[i].s*10){
-           if(t==1)
+           if(a[i].p.size()<a[i].s*10)
            {
-               x=a[i].p.size()-1;
-                if(x>=0){
-               if(a[i].p[x]==c-1) c=c+1;
+                if(t==1)
+                {
+                    x=a[i].p.size()-1;
+                    if(x>=0)
+                    {
+                        if(a[i].p[x]==c-1) c=c+1;
+                    }
+                    a[i].p.push_back(c);
+                    c=c+2;
                 }
-               a[i].p.push_back(c);
-               c=c+2;
-           }
-           else
-           {
-               a[i].p.push_back(c);
-               c++;
-           }
+                else
+                {
+                    a[i].p.push_back(c);
+                    c++;
+                }
            }
        }
    }
