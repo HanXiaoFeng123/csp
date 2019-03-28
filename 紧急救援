@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+int d[501];
+int edgs[501][501];
+int s[501];
+int qz[501];
+int ss[501];
+int pre[501];
+int num[501];
+int main()
+{
+    ios::sync_with_stdio(false);
+    int n,m,p,q,max,x,y,k,i,j,u,min,c=1,a[501];
+    cin>>n>>m>>p>>q;
+    max=100000;
+    fill(edgs[0],edgs[0]+501*501,max);
+    for(i=0;i<n;i++) cin>>qz[i];
+    for(i=0;i<m;i++)
+    {
+        cin>>x>>y>>k;
+        edgs[x][y]=k;
+        edgs[y][x]=k;
+    }
+    fill(d,d+n,max);
+    fill(num,num+n,0);
+    fill(s,s+n,0);
+    fill(ss,ss+n,0);
+    d[p]=0;
+    ss[p]=qz[p];
+    pre[p]=-1;
+    num[p]=1;
+    for(i=0;i<n;i++)
+    {
+        u=-1;
+        min=max;
+        for(j=0;j<n;j++)
+        {
+            if(s[j]==0&&d[j]<min)
+            {
+                min=d[j];
+                u=j;
+            }
+        }
+        s[u]=1;
+        for(j=0;j<n;j++)
+        {
+            if(s[j]==0)
+            {
+                if((d[u]+edgs[u][j])<d[j])
+                {
+                    d[j]=d[u]+edgs[u][j];
+                    pre[j]=u;
+                    ss[j]=ss[u]+qz[j];
+                    num[j]=num[u];
+                }
+                else if((d[u]+edgs[u][j])==d[j]&&d[j]!=max)
+                {
+                    if((ss[u]+qz[j])>ss[j])
+                    {
+                    pre[j]=u;
+                    ss[j]=ss[u]+qz[j];
+                    }
+                    num[j]=num[j]+num[u];
+                }
+            }
+        }
+    }
+    cout<<num[q]<<" "<<ss[q]<<endl;
+    k=0;
+    while(pre[q]!=-1)
+    {
+        a[k]=q;
+        k++;
+        q=pre[q];
+    }
+    a[k]=q;
+    for(i=k;i>0;i--) cout<<a[i]<<" ";
+    cout<<a[i];
+}
+
